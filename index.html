@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulir Bimbingan Perkawinan</title>
+    <style>
+        :root {
+            --hijau-tua: #2e7d32;
+            --hijau-muda: #66bb6a;
+            --putih: #ffffff;
+            --abu: #f5f5f5;
+            --teks: #333333;
+            --radius: 14px;
+            --trans: 0.3s ease;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: "Poppins", sans-serif;
+            background: linear-gradient(135deg, var(--hijau-tua), var(--hijau-muda));
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .form-container {
+            background: var(--putih);
+            padding: 30px 40px;
+            border-radius: var(--radius);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
+            width: 100%;
+            max-width: 420px;
+            animation: fadeIn 0.8s ease;
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .form-header h2 {
+            margin: 0;
+            font-size: 22px;
+            color: var(--hijau-tua);
+            font-weight: 700;
+        }
+
+        .form-header p {
+            margin: 5px 0 0;
+            color: #666;
+            font-size: 14px;
+        }
+
+        label {
+            display: block;
+            margin-top: 12px;
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--teks);
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 6px;
+            border: 1px solid #ddd;
+            border-radius: var(--radius);
+            font-size: 14px;
+            outline: none;
+            transition: border-color var(--trans), box-shadow var(--trans);
+        }
+
+        input:focus {
+            border-color: var(--hijau-muda);
+            box-shadow: 0 0 6px rgba(102, 187, 106, 0.5);
+        }
+
+        button {
+            margin-top: 20px;
+            width: 100%;
+            padding: 12px;
+            background: var(--hijau-tua);
+            color: var(--putih);
+            font-size: 15px;
+            font-weight: 600;
+            border: none;
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: background var(--trans), transform 0.2s;
+        }
+
+        button:hover {
+            background: var(--hijau-muda);
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        .success {
+            margin-top: 15px;
+            text-align: center;
+            color: var(--hijau-tua);
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        @keyframes fadeIn {
+            from {opacity: 0; transform: translateY(-20px);}
+            to {opacity: 1; transform: translateY(0);}
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <div class="form-header">
+            <h2>Formulir Bimbingan Perkawinan</h2>
+            <h2>KUA Cibeunying Kidul</h2>
+        </div>
+        <form id="bimwinForm">
+            <label for="suami">Nama Calon Suami</label>
+            <input type="text" id="suami" required>
+
+            <label for="istri">Nama Calon Istri</label>
+            <input type="text" id="istri" required>
+
+            <label for="akad">Tanggal Akad</label>
+            <input type="date" id="akad" required>
+
+            <label for="bimwin">Tanggal Bimwin</label>
+            <input type="date" id="bimwin" required>
+
+            <label for="wa_suami">WA Calon Suami</label>
+            <input type="text" id="wa_suami" required>
+
+            <label for="wa_istri">WA Calon Istri</label>
+            <input type="text" id="wa_istri" required>
+
+            <button type="submit">Kirim</button>
+        </form>
+        <div class="success" id="successMsg"></div>
+    </div>
+
+    <script>
+        document.getElementById("bimwinForm").addEventListener("submit", function(e){
+            e.preventDefault();
+            let data = {
+                suami: document.getElementById("suami").value,
+                istri: document.getElementById("istri").value,
+                akad: document.getElementById("akad").value,
+                bimwin: document.getElementById("bimwin").value,
+                wa_suami: document.getElementById("wa_suami").value,
+                wa_istri: document.getElementById("wa_istri").value
+            };
+            var deploymentUrl = "URL_DEPLOYMENT_ANDA"; 
+            fetch(deploymentUrl, {
+                method: "POST",
+                body: JSON.stringify(data),
+            })
+            .then(res => res.text())
+            .then(res => {
+                document.getElementById("successMsg").innerText = "Data berhasil dikirim!";
+                document.getElementById("bimwinForm").reset();
+            })
+            .catch(err => {
+                document.getElementById("successMsg").innerText = "Gagal mengirim data.";
+            });
+        });
+    </script>
+</body>
+</html>
